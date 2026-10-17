@@ -1,0 +1,22 @@
+[project]
+name = "booking"
+version = "0.1.0"
+description = "Events booking service for BookMe"
+readme = "README.md"
+authors = [
+    { name = "Jupiter", email = "ing.alejandroareiza@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.143.3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.17.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]  # lets tests import the app package
+testpaths = ["tests"]
