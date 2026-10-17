@@ -20,3 +20,10 @@ dev = [
 [tool.pytest.ini_options]
 pythonpath = ["."]  # lets tests import the app package
 testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py313"
+src = ["."]  # code lives in ./app, so `app` is our own (first-party) package
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
