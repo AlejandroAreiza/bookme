@@ -22,6 +22,6 @@ class Venue:
 
     def __post_init__(self) -> None:
         if not self.name.strip():
-            raise ValueError("venue name cannot be empty")
+            raise ValueError("Venue name cannot be empty")
         if not self.type:
-            raise ValueError("venue type cannot be empty")
+            raise ValueError("Venue type cannot be empty")

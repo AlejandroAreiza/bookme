@@ -12,7 +12,7 @@ class Event:
     venue: Venue
     starts_at: datetime
     capacity: int
-    seats_booked: int = 0
+    _spots_booked: int = field(default=0, init=False, repr=False)
     id: UUID = field(default_factory=uuid4)
 
     def __post_init__(self) -> None:
@@ -25,26 +25,19 @@ class Event:
         if self.capacity <= 0:
             raise ValueError("capacity must be greater than 0")
 
-        if not 0 <= self.seats_booked <= self.capacity:
-            raise ValueError(
-                "seats_booked is out of range and must be between 0 and capacity"
-            )
+    @property
+    def spots_available(self) -> int:
+        return self.capacity - self._spots_booked
 
     @property
-    def seats_available(self) -> int:
-        return self.capacity - self.seats_booked
+    def sold_out(self) -> bool:
+        return self.spots_available == 0
 
-    @property
-    def is_sold_out(self) -> bool:
-        return self.seats_available == 0
-
-    def book_seat(self) -> None:
-        if self.is_sold_out:
+    def book_spot(self) -> None:
+        if self.sold_out:
             raise SoldOutError(f"Event {self.id} is sold out")
-        self.seats_booked += 1
+        self._spots_booked += 1
 
-    # An Event is an entity: two Event objects are the same event when they
-    # have the same id, even if other values (like seats_booked) differ.
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Event):
             return NotImplemented
